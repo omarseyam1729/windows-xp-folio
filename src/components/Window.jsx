@@ -77,7 +77,10 @@ const Window = ({ id, title, children, position, onClose, onMinimize, onMaximize
         left: `${position.x}px`,
         top: `${position.y}px`,
         width: windowWidth,
-        minHeight: windowHeight,
+        // Windows that pass an explicit size get a definite height so their
+        // content can fill it (e.g. the all-black Command Prompt). Others keep
+        // growing to fit their content.
+        ...(height ? { height: windowHeight } : { minHeight: windowHeight }),
         zIndex: 1000,
         borderRadius: '3px'
       }}
@@ -172,14 +175,14 @@ const Window = ({ id, title, children, position, onClose, onMinimize, onMaximize
       </div>
 
       {/* Window Content */}
-      <div 
-        className="bg-white xp-border-inset overflow-auto" 
-        style={{ 
-          height: isMaximized ? 'calc(100% - 22px)' : 'calc(100% - 22px)',
-          minHeight: isMaximized ? 'calc(100% - 22px)' : '370px'
+      <div
+        className="bg-white xp-border-inset overflow-auto"
+        style={{
+          height: 'calc(100% - 22px)',
+          minHeight: isMaximized ? 'calc(100% - 22px)' : (height ? 0 : '370px')
         }}
       >
-        <div className={`${id === 'resume' ? 'h-full p-0' : (id === 'control' || id === 'computer' || id === 'paint' || id === 'recyclebin' || id.startsWith('folder-')) ? 'h-full p-0' : 'p-4'}`}>
+        <div className={`${id === 'resume' ? 'h-full p-0' : (id === 'control' || id === 'computer' || id === 'paint' || id === 'recyclebin' || id === 'cmd' || id.startsWith('folder-')) ? 'h-full p-0' : 'p-4'}`}>
           {children}
         </div>
       </div>

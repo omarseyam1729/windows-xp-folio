@@ -21,6 +21,7 @@ import Run from '../pages/Run'
 import InternetExplorer from '../pages/InternetExplorer'
 import Resume from '../pages/Resume'
 import Challenge from '../pages/Challenge'
+import CommandPrompt from '../pages/CommandPrompt'
 import FolderWindow from './FolderWindow'
 import RecycleBinWindow from './RecycleBinWindow'
 import {
@@ -37,7 +38,7 @@ import {
 } from '../utils/filesystem'
 
 // Order of the left-hand desktop icons, top to bottom.
-const DESKTOP_ICON_ORDER = ['about', 'projects', 'contact', 'resume', 'notepad', 'paint', 'challenge']
+const DESKTOP_ICON_ORDER = ['about', 'projects', 'contact', 'resume', 'notepad', 'paint', 'challenge', 'cmd']
 
 // Lay the left-column icons out so they wrap into extra columns instead of
 // sliding under the taskbar on shorter viewports, and pin the recycle bin to the
@@ -322,6 +323,17 @@ const Desktop = ({ openWindow, openWindows, closeWindow, minimizeWindow, maximiz
             onEmpty={handleEmptyRecycleBin}
           />
         )
+      case 'CommandPrompt':
+        return (
+          <CommandPrompt
+            nodes={nodes}
+            onCreateFolder={handleNewFolder}
+            onCreateFile={handleNewFile}
+            onDelete={handleNodeDelete}
+            onOpen={openNode}
+            onClose={() => closeWindow('cmd')}
+          />
+        )
       case 'Paint':
         return <Paint />
       case 'MyDocuments':
@@ -433,7 +445,17 @@ const Desktop = ({ openWindow, openWindows, closeWindow, minimizeWindow, maximiz
         onRename={handleIconRename}
         onDelete={handleIconDelete}
       />
-      <DesktopIcon 
+      <DesktopIcon
+        id="cmd"
+        icon="/cmd.svg"
+        label="Command Prompt"
+        position={iconPositions['cmd'] || { x: 16, y: 744 }}
+        onPositionChange={(x, y) => updateIconPosition('cmd', x, y)}
+        onClick={() => handleIconClick('cmd', 'Command Prompt', 'CommandPrompt')}
+        onRename={handleIconRename}
+        onDelete={handleIconDelete}
+      />
+      <DesktopIcon
         id="recyclebin"
         icon="🗑️"
         label="Recycle Bin"
@@ -488,8 +510,8 @@ const Desktop = ({ openWindow, openWindows, closeWindow, minimizeWindow, maximiz
             }}
             isMaximized={window.maximized}
             onPositionChange={updateWindowPosition}
-            width={window.component === 'Paint' ? '900px' : window.component === 'Resume' ? '800px' : (window.component === 'Folder' || window.component === 'RecycleBin') ? '520px' : undefined}
-            height={window.component === 'Paint' ? '700px' : window.component === 'Resume' ? '600px' : (window.component === 'Folder' || window.component === 'RecycleBin') ? '380px' : undefined}
+            width={window.component === 'Paint' ? '900px' : window.component === 'Resume' ? '800px' : window.component === 'CommandPrompt' ? '640px' : (window.component === 'Folder' || window.component === 'RecycleBin') ? '520px' : undefined}
+            height={window.component === 'Paint' ? '700px' : window.component === 'Resume' ? '600px' : window.component === 'CommandPrompt' ? '400px' : (window.component === 'Folder' || window.component === 'RecycleBin') ? '380px' : undefined}
           >
             {renderWindowContent(window.component, window.props)}
           </Window>
