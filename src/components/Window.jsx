@@ -74,7 +74,7 @@ const Window = ({ id, title, children, position, onClose, onMinimize, onMaximize
         left: 0,
         top: 0,
         width: '100%',
-        height: 'calc(100vh - 40px)', // Subtract taskbar height using viewport height
+        height: 'calc(100dvh - 40px)', // Subtract taskbar; dvh keeps it within the mobile viewport
         zIndex: 1000,
         borderRadius: 0
       } : {

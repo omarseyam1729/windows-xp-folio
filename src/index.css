@@ -13,7 +13,11 @@
   }
   
   #root {
-    @apply w-screen h-screen;
+    width: 100vw;
+    /* Fall back to vh, then use dvh so the taskbar isn't hidden behind the
+       mobile browser's address bar / toolbar. */
+    height: 100vh;
+    height: 100dvh;
   }
 }
 
@@ -1732,7 +1736,7 @@
     bottom: 40px;
     width: 100vw;
     min-width: 0;
-    height: calc(100vh - 40px);
+    height: calc(100dvh - 40px);
     border-radius: 0;
   }
 

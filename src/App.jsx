@@ -58,7 +58,7 @@ function App() {
 
   return (
     <Router>
-      <div className="w-screen h-screen relative overflow-hidden bg-xp-blue-500">
+      <div className="w-full h-full relative overflow-hidden bg-xp-blue-500">
         {booting && <WelcomeScreen fading={welcomeFading} />}
         <Desktop
           openWindow={openWindow}
